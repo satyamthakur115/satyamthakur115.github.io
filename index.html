@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Satyam Thakur | Data Analyst Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d12;
+    --bg2: #0f1318;
+    --bg3: #141820;
+    --accent: #c8a96e;
+    --accent2: #4fc3f7;
+    --text: #e8e4da;
+    --text2: #8a8880;
+    --border: rgba(200,169,110,0.15);
+    --card: #111520;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(10,13,18,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(79,195,247,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner { max-width: 900px; animation: fadeUp 1s ease both; }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  h1 span { color: var(--accent); }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text2);
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn {
+    padding: 0.85rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0d12;
+    font-weight: 500;
+  }
+  .btn-primary:hover { background: #dfc080; transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text2);
+    letter-spacing: 0.05em;
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 4rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ABOUT */
+  .about { background: var(--bg2); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text2);
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-skills h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .skill-group { margin-bottom: 2rem; }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+  .tag {
+    padding: 0.3rem 0.9rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 0.8rem;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+    transition: all 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* PROJECTS */
+  .projects { background: var(--bg); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover { border-color: rgba(200,169,110,0.3); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  .project-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .project-card p {
+    color: var(--text2);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+
+  .project-tag {
+    padding: 0.2rem 0.7rem;
+    background: rgba(200,169,110,0.08);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-radius: 2px;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .project-links { display: flex; gap: 1rem; }
+
+  .project-link {
+    font-size: 0.78rem;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+  }
+
+  .project-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .project-highlight {
+    background: rgba(200,169,110,0.04);
+    border-color: rgba(200,169,110,0.25);
+  }
+
+  /* EXPERIENCE */
+  .experience { background: var(--bg2); }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-meta { padding-top: 0.2rem; }
+
+  .exp-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--text2);
+  }
+
+  .exp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .exp-desc {
+    color: var(--text2);
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+
+  .exp-desc li {
+    list-style: none;
+    padding-left: 1.2rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-desc li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+
+  /* CERTIFICATIONS */
+  .certifications { background: var(--bg); }
+
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .cert-item {
+    padding: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: border-color 0.3s;
+  }
+
+  .cert-item:hover { border-color: rgba(200,169,110,0.3); }
+
+  .cert-icon {
+    width: 36px; height: 36px;
+    background: rgba(200,169,110,0.1);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent);
+    font-size: 1rem;
+  }
+
+  .cert-name {
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+
+  .cert-issuer {
+    font-size: 0.78rem;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* CONTACT */
+  .contact {
+    background: var(--bg2);
+    text-align: center;
+  }
+
+  .contact-inner { max-width: 600px; margin: 0 auto; }
+
+  .contact h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .contact p {
+    color: var(--text2);
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-link {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    transition: color 0.2s;
+  }
+  .contact-link:hover { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    padding: 1.5rem 4rem;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 0.78rem;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 0 1.5rem; }
+    h1 { font-size: 2.8rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .cert-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ST</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Available for opportunities in Canada</div>
+    <h1>Satyam<br><span>Thakur</span></h1>
+    <p class="hero-desc">Financial Data Analyst specializing in SQL, Python, and Power BI. I build end-to-end reporting pipelines and BI dashboards that turn raw data into business decisions.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="mailto:satyamthakur115@gmail.com" class="btn btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label">Portfolio Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">500K+</div>
+        <div class="stat-label">Rows Optimized</div>
+      </div>
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Reports Automated</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-header fade-in">
+    <span class="section-num">01</span>
+    <h2>About Me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>I turn <strong>raw, messy business data</strong> into reporting systems that actually get used. With a foundation in financial analysis and a technical stack built around SQL, Python, and Power BI, I build end-to-end pipelines that eliminate manual bottlenecks.</p>
+      <p>At my previous company, I optimized SQL queries running on <strong>500,000+ row datasets</strong> from 15 seconds to under 2 seconds, automated 10+ recurring Excel reports using Python, and cut weekly reporting time from <strong>3 hours to under 10 minutes</strong>.</p>
+      <p>I hold a <strong>Diploma in Financial Analysis</strong> from Conestoga College and a Bachelor of Computer Applications from Guru Nanak Dev University. Currently open to Data Analyst, BI Analyst, and Financial Analyst opportunities across Canada.</p>
+    </div>
+    <div class="about-skills fade-in">
+      <h3>Technical Stack</h3>
+      <div class="skill-group">
+        <div class="skill-group-title">Languages & Databases</div>
+        <div class="skill-tags">
+          <span class="tag">SQL</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">SQL Server</span>
+          <span class="tag">Python</span>
+          <span class="tag">DAX</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">BI & Visualization</div>
+        <div class="skill-tags">
+          <span class="tag">Power BI</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">Plotly</span>
+          <span class="tag">Excel</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">ETL & Automation</div>
+        <div class="skill-tags">
+          <span class="tag">Pandas</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">ETL Pipelines</span>
+          <span class="tag">OpenPyXL</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Cloud & Tools</div>
+        <div class="skill-tags">
+          <span class="tag">Azure</span>
+          <span class="tag">Oracle Cloud</span>
+          <span class="tag">Git</span>
+          <span class="tag">Jira</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="section-header fade-in">
+    <span class="section-num">02</span>
+    <h2>Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card project-highlight fade-in">
+      <div class="project-num">PROJECT 01</div>
+      <h3>SaaS Financial Performance Dashboard</h3>
+      <p>End-to-end SaaS financial analytics tracking MRR, ARR, Budget vs Actual variance, Churn Rate and LTV/CAC ratios across 24 months. Enterprise MRR grew from $3,897 to $190K+.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Pandas</span>
+        <span class="project-tag">Plotly</span>
+        <span class="project-tag">SQL</span>
+      </div>
+      <div class="project-links">
+        <a href="https://satyamthakur115.github.io/saas-financial-dashboard/saas_dashboard.html" target="_blank" class="project-link">↗ Live Dashboard</a>
+        <a href="https://github.com/satyamthakur115/saas-financial-dashboard" target="_blank" class="project-link">↗ GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-num">PROJECT 02</div>
+      <h3>Financial KPI Dashboard</h3>
+      <p>Normalized SQL schema for 2,000+ financial transactions across 5 departments. Identified 12% cost reduction through variance analysis. +9.3% YoY revenue growth tracked.</p>
+      <div class="project-tags">
+        <span class="project-tag">SQL</span>
+        <span class="project-tag">Power BI</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Excel</span>
+      </div>
+      <div class="project-links">
+        <a href="https://satyamthakur115.github.io/financial-KPI-dashboard-/financial-dashboard.html" target="_blank" class="project-link">↗ Live Dashboard</a>
+        <a href="https://github.com/satyamthakur115/financial-KPI-dashboard-" target="_blank" class="project-link">↗ GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-num">PROJECT 03</div>
+      <h3>Retail Sales Performance Dashboard</h3>
+      <p>Python ETL pipeline processing 5,000 retail transactions with OLAP star schema. East & West regions drove 68% of revenue. Furniture led at $884K with 71.1% margin.</p>
+      <div class="project-tags">
+        <span class="project-tag">SQL</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Tableau</span>
+        <span class="project-tag">ETL</span>
+      </div>
+      <div class="project-links">
+        <a href="https://satyamthakur115.github.io/retail-sales-performance-dashboard/retail_dashboard.html" target="_blank" class="project-link">↗ Live Dashboard</a>
+        <a href="https://github.com/satyamthakur115/retail-sales-performance-dashboard" target="_blank" class="project-link">↗ GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-num">PROJECT 04</div>
+      <h3>Canadian Job Market Analysis</h3>
+      <p>Full ETL pipeline analyzing 1,200+ Canadian data analyst job postings. SQL appeared in 90.7% of postings. Toronto accounts for 26.8% of roles. Avg salary: CAD $79,742.</p>
+      <div class="project-tags">
+        <span class="project-tag">SQL</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">MySQL</span>
+        <span class="project-tag">Pandas</span>
+      </div>
+      <div class="project-links">
+        <a href="https://satyamthakur115.github.io/Canadian-job-market-analysis/dashboard.html" target="_blank" class="project-link">↗ Live Dashboard</a>
+        <a href="https://github.com/satyamthakur115/Canadian-job-market-analysis" target="_blank" class="project-link">↗ GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-header fade-in">
+    <span class="section-num">03</span>
+    <h2>Experience</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="exp-item fade-in">
+    <div class="exp-meta">
+      <div class="exp-date">Jul 2020 — Sep 2024</div>
+      <div class="exp-company">Amit Traders<br>Jalandhar, India</div>
+    </div>
+    <div>
+      <div class="exp-title">Data Analyst</div>
+      <ul class="exp-desc">
+        <li>Built Power BI and Excel dashboards tracking financial and operational KPIs across sales, inventory, and finance</li>
+        <li>Optimized SQL queries from ~15 seconds to under 2 seconds on 500,000+ row datasets using indexing, CTEs, and join restructuring</li>
+        <li>Automated 10+ recurring financial reports using Python (Pandas, OpenPyXL), cutting monthly reporting effort significantly</li>
+        <li>Reduced weekly financial reporting time from 3 hours to under 10 minutes by replacing manual Excel workflows with Python pipelines</li>
+        <li>Designed and maintained MySQL databases for financial transaction data including sales, cost, and inventory records</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="certifications" id="certifications">
+  <div class="section-header fade-in">
+    <span class="section-num">04</span>
+    <h2>Certifications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="cert-grid">
+    <div class="cert-item fade-in">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">Oracle Cloud Infrastructure 2025 AI Foundations Associate</div>
+        <div class="cert-issuer">Oracle · 2025</div>
+      </div>
+    </div>
+    <div class="cert-item fade-in">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">Data Analytics Job Simulation</div>
+        <div class="cert-issuer">Deloitte Australia via Forage · Jun 2025</div>
+      </div>
+    </div>
+    <div class="cert-item fade-in">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">Technology Job Simulation</div>
+        <div class="cert-issuer">Deloitte Australia via Forage · Jul 2025</div>
+      </div>
+    </div>
+    <div class="cert-item fade-in">
+      <div class="cert-icon">◈</div>
+      <div>
+        <div class="cert-name">SQL Server for Data Analysis</div>
+        <div class="cert-issuer">Alison · 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner fade-in">
+    <div class="section-num" style="justify-content:center;display:flex;margin-bottom:1rem">05</div>
+    <h2>Let's <span style="color:var(--accent)">Connect</span></h2>
+    <p>Open to Data Analyst, BI Analyst, and Financial Analyst opportunities across Canada. Let's talk about how I can help your team make better decisions with data.</p>
+    <a href="mailto:satyamthakur115@gmail.com" class="btn btn-primary">satyamthakur115@gmail.com</a>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/satyam-thakur-94a4231b9/" target="_blank" class="contact-link">LinkedIn</a>
+      <a href="https://github.com/satyamthakur115" target="_blank" class="contact-link">GitHub</a>
+      <a href="https://satyamthakur115.github.io/Canadian-job-market-analysis/dashboard.html" target="_blank" class="contact-link">Job Market Dashboard</a>
+      <a href="https://satyamthakur115.github.io/saas-financial-dashboard/saas_dashboard.html" target="_blank" class="contact-link">SaaS Dashboard</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Satyam Thakur</p>
+  <p>Built with HTML · Hosted on GitHub Pages</p>
+</footer>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
